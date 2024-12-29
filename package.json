@@ -2,6 +2,7 @@
   "name": "web3-react-ui",
   "module": "index.ts",
   "type": "module",
+  "main": "dist/index.cjs",
   "devDependencies": {
     "@types/react": "^19.0.2",
     "bun-types": "latest",

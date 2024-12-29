@@ -6,7 +6,6 @@
     "moduleResolution": "bundler",
     "moduleDetection": "force",
     "allowImportingTsExtensions": false,
-    "composite": true,
     "strict": true,
     "downlevelIteration": true,
     "skipLibCheck": true,
@@ -19,6 +18,7 @@
     "sourceMap": true,
     "outDir": "dist",
     "emitDeclarationOnly": true,
+    "composite": false,
     "types": [
       "bun-types" // add Bun global
     ]
