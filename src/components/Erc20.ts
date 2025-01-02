@@ -68,5 +68,27 @@ export function useErc20(tokenAddress: string, chainId: string) {
     [tokenData]
   );
 
-  return { tokenData, error, toMachineReadable };
+  const toHumanReadable = useCallback(
+    (amount: string | number) => {
+      if (!tokenData) {
+        console.warn('Token data is not loaded yet. Returning null.');
+        return null;
+      }
+
+      return ethers.formatUnits(amount.toString(), tokenData.decimals);
+    },
+    [tokenData]
+  );
+
+  return { tokenData, error, toMachineReadable, toHumanReadable };
+}
+
+export const ERC20_ABI = {
+  ALLOWANCE: 'function allowance(address owner, address spender) view returns (uint256)',
+  TRANSFER: 'function transfer(address to, uint256 value) returns (bool)',
+  TRANSFER_FROM: 'function transferFrom(address from, address to, uint256 value) returns (bool)',
+  APPROVE: 'function approve(address spender, uint256 value) returns (bool)',
+  DECIMALS: 'function decimals() view returns (uint8)',
+  NAME: 'function name() view returns (string)',
+  SYMBOL: 'function symbol() view returns (string)',
 }

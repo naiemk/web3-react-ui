@@ -7,6 +7,16 @@ import { Chain } from '@web3-onboard/common'
 type MethodDefinition = string;
 type Args = any[];
 
+export const useConnectWalletSimple = () => {
+  const [{ wallet }] = useConnectWallet();
+  const address = (wallet?.accounts || [])[0]?.address;
+  const chainId = (wallet?.chains || [])[0]?.id;
+  return {
+    address,
+    chainId
+  };
+}
+
 export const useContracts = () => {
   const [{ wallet }] = useConnectWallet();
   const [error, setError] = useState<string | null>(null);

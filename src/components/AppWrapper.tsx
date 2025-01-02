@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Web3OnboardProvider, init } from '@web3-onboard/react'
 import injectedModule from '@web3-onboard/injected-wallets'
-import walletConnectModule from '@web3-onboard/walletconnect'
+// import walletConnectModule from '@web3-onboard/walletconnect'
 import coinbaseModule from '@web3-onboard/coinbase'
 import trustModule from '@web3-onboard/trust'
 import { AppMetadata, Chain, ChainWithDecimalId } from '@web3-onboard/common'
@@ -10,15 +10,15 @@ import { GlobalCache } from "./LocalCache";
 
 const injected = injectedModule()
 const coinbase = coinbaseModule()
-const walletConnectOptions = {}
-const walletConnect = walletConnectModule(walletConnectOptions)
+// const walletConnectOptions = {}
+// const walletConnect = walletConnectModule(walletConnectOptions)
 const trust = trustModule()
 
 const wallets = [
   injected,
   trust,
   coinbase,
-  walletConnect,
+  // walletConnect,
 ]
 
 // const appMetadata = {
@@ -43,11 +43,18 @@ export const AppWrapper = (props: {
   onConfigLoaded?: (key: string, value: any) => void,
 }) => {
   const [chains, setChains] = useState<(Chain | ChainWithDecimalId)[] | null>(null)
-  const web3Onboard = chains ? init({
-    wallets,
-    chains,
-    appMetadata: props.appMetadata
-  }) : null
+  const [web3Onboard, setWeb3Onboard] = useState<any>(null)
+
+  useEffect(() => {
+    if (chains) {
+      console.log('Chains loaded:', chains)
+      const w3o = init({
+        wallets,
+        chains,
+        appMetadata: props.appMetadata});
+      setWeb3Onboard(w3o)
+    }
+  }, [chains])
 
   useEffect(() => {
     const loadConfig = async () => {
@@ -82,9 +89,15 @@ export const AppWrapper = (props: {
     loadConfig()
   }, [props.configUrlMaps, props.providersConfigUrl, props.onConfigLoaded])
 
+  if (web3Onboard) {
+    return (
+      <Web3OnboardProvider web3Onboard={web3Onboard as any}>
+        {props.children}
+      </Web3OnboardProvider>
+    )
+  }
+
   return (
-    <Web3OnboardProvider web3Onboard={web3Onboard as any}>
-      {props.children}
-    </Web3OnboardProvider>
+    <p>Loading...</p>
   );
 };
