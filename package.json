@@ -24,8 +24,7 @@
   },
   "peerDependencies": {
     "react": "^19.0.0",
-    "typescript": "^5.0.0",
-    "react/jsx-runtime": "^19.0.0"
+    "typescript": "^5.0.0"
   },
   "dependencies": {
     "@web3-onboard/coinbase": "^2.4.1",
