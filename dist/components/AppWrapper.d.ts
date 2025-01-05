@@ -7,6 +7,7 @@ export declare const AppWrapper: (props: {
     children: React.ReactNode;
     appMetadata: AppMetadata;
     providersConfigUrl: string;
+    web3OnboardInitializer: (data: any) => any;
     configUrlMaps?: {
         [key: string]: string;
     };

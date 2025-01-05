@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Web3OnboardProvider, init } from '@web3-onboard/react'
+import { Web3OnboardProvider } from '@web3-onboard/react'
 import injectedModule from '@web3-onboard/injected-wallets'
 // import walletConnectModule from '@web3-onboard/walletconnect'
 import coinbaseModule from '@web3-onboard/coinbase'
@@ -28,12 +28,13 @@ export const AppWrapper = (props: {
   children: React.ReactNode,
   appMetadata: AppMetadata,
   providersConfigUrl: string,
+  web3OnboardInitializer: (data: any) => any,
   configUrlMaps?: { [key: string]: string },
   onError?: (error: Error) => void,
   onConfigLoaded?: (key: string, value: any) => void,
 }) => {
   const [chains, setChains] = useState<(Chain | ChainWithDecimalId)[] | null>(null)
-  const [web3Onboard, setWeb3Onboard] = useState<any>(null)
+  const [initData, setInitData] = useState<any>(null)
 
   useEffect(() => {
     if (chains) {
@@ -55,9 +56,8 @@ export const AppWrapper = (props: {
           }
         });
       
-      const w3o = init(w3oInitData);
       setWeb3OnboardInit()(w3oInitData);
-      setWeb3Onboard(w3o)
+      setInitData(w3oInitData)
     }
   }, [chains])
 
@@ -94,9 +94,9 @@ export const AppWrapper = (props: {
     loadConfig()
   }, [props.configUrlMaps, props.providersConfigUrl, props.onConfigLoaded])
 
-  if (web3Onboard) {
+  if (initData) {
     return (
-      <Web3OnboardProvider web3Onboard={web3Onboard as any}>
+      <Web3OnboardProvider web3Onboard={props.web3OnboardInitializer(initData)}>
         {props.children}
       </Web3OnboardProvider>
     )
