@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { useConnectWallet } from '@web3-onboard/react';
-import { ChainConstants } from './Types';
+import { canonicalAddress, canonicalChainId, ChainConstants } from './Types';
 import { useState, useCallback } from 'react';
 import { Chain } from '@web3-onboard/common'
 
@@ -10,9 +10,10 @@ type Args = any[];
 export const useConnectWalletSimple = () => {
   const [{ wallet }] = useConnectWallet();
   const address = (wallet?.accounts || [])[0]?.address;
-  const chainId = (wallet?.chains || [])[0]?.id;
+  let chainId = canonicalChainId((wallet?.chains || [])[0]?.id);
   return {
-    address,
+    address: canonicalAddress(address),
+    addressDisplay: address,
     chainId
   };
 }
@@ -39,7 +40,7 @@ export const useContracts = () => {
         const provider = new ethers.JsonRpcProvider(chain.rpcUrl);
         const contract = new ethers.Contract(contractAddr, [definition], provider);
 
-        const methodName = definition.split('(')[0].trim();
+        const methodName = definition.split('(')[0].split(' ')[1].trim();
         if (!(methodName in contract)) {
           setError(`Method ${methodName} not found in contract.`);
           return null;

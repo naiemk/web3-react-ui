@@ -10,6 +10,7 @@ export declare function useErc20(tokenAddress: string, chainId: string): {
     toHumanReadable: (amount: string | number) => string | null;
 };
 export declare const ERC20_ABI: {
+    BALANCE_OF: string;
     ALLOWANCE: string;
     TRANSFER: string;
     TRANSFER_FROM: string;

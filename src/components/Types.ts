@@ -1,9 +1,29 @@
 import { Chain, ChainWithDecimalId } from '@web3-onboard/common'
 
+export interface Token {
+  chainId: string;
+  address: string;
+  decimals: number;
+  symbol: string;
+  name: string;
+  logoURI: string;
+  isNative: boolean;
+}
+
 export const ChainConstants: {[k: string]: Chain | ChainWithDecimalId} = {
 }
 
-export function canonicalChainId(chainId: string | number) {
+export function canonicalAddress(address: string): string | null {
+  if (!address) {
+    return null;
+  }
+  return address.toLowerCase();
+}
+
+export function canonicalChainId(chainId: string | number): string | null {
+  if (!chainId) {
+    return null;
+  }
   if (typeof chainId === 'string') {
     if (chainId.startsWith('0x')) { 
       return parseInt(chainId, 16).toString();
@@ -18,7 +38,7 @@ export function getChain(chainId: string) {
   if (!chainId) {
     return null;
   }
-  const rv = ChainConstants[canonicalChainId(chainId)]
+  const rv = ChainConstants[canonicalChainId(chainId) || '-']
   if (!rv) {
     console.warn(`Chain config for ${chainId} not found`)
   }

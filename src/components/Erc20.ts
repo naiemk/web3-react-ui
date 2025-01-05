@@ -84,6 +84,7 @@ export function useErc20(tokenAddress: string, chainId: string) {
 }
 
 export const ERC20_ABI = {
+  BALANCE_OF: 'function balanceOf(address account) view returns (uint256)',
   ALLOWANCE: 'function allowance(address owner, address spender) view returns (uint256)',
   TRANSFER: 'function transfer(address to, uint256 value) returns (bool)',
   TRANSFER_FROM: 'function transferFrom(address from, address to, uint256 value) returns (bool)',
