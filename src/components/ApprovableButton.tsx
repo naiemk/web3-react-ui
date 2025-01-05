@@ -20,7 +20,6 @@ type ApprovableButtonProps = {
  * @param {ApprovableButtonProps} props - Props for the component.
  */
 export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
-  chainId,
   token,
   amount,
   spender,
@@ -32,18 +31,24 @@ export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
   const [pending, setPending] = useState<boolean>(false);
   const [{ wallet }, connect] = useConnectWallet();
   const { callMethod, execute } = useContracts();
-  const { address, } = useConnectWalletSimple();
-  const { toMachineReadable } = useErc20(token, chainId);
+  const { address, chainId } = useConnectWalletSimple();
+  const { toMachineReadable, tokenData } = useErc20(token, chainId!);
 
   const checkApproval = async () => {
     try {
-      if (!chainId || !token || !amount || !spender || !address) {
-        console.error('Invalid parameters provided or wallet not connected.');
+      if (!amount || Number(amount) === 0) {
+        console.warn('Amount is 0, skipping approval check.');
+        return;
+      }
+      if (!chainId || !token || !spender || !address) {
+        console.warn('Invalid parameters provided or wallet not connected.', { chainId, token, amount, spender, address });
         return;
       }
 
       const allowance = await callMethod(chainId, token, ERC20_ABI.ALLOWANCE, [address, spender]);
+      console.log('allowance', allowance);
       const amountInWei = toMachineReadable(amount);
+      console.log('allowance-amountInWei', amountInWei);
       if (amountInWei) {
         setApprovalNeeded(allowance < amountInWei);
       }
@@ -69,7 +74,7 @@ export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
       // Keep checking the approval status
       const interval = setInterval(async () => {
         try {
-          const allowance = await callMethod(chainId, token, ERC20_ABI.ALLOWANCE, [address, spender]);
+          const allowance = await callMethod(chainId!, token, ERC20_ABI.ALLOWANCE, [address, spender]);
           console.log('allowance received', allowance);
           if (allowance.gte(amountInWei)) {
             setPending(false);
@@ -87,8 +92,10 @@ export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
   };
 
   useEffect(() => {
-    checkApproval();
-  }, [chainId, token, amount, spender, wallet]);
+    if (tokenData) {
+      checkApproval();
+    }
+  }, [chainId, token, amount, spender, wallet, tokenData]);
 
   if (approvalNeeded === null) {
     return unknownState; // Render the unknown state when approval status is undetermined.
