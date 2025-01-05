@@ -73,7 +73,7 @@ export const useContracts = () => {
         const signer = await provider.getSigner();
         const contract = new ethers.Contract(contractAddr, [definition], signer);
 
-        const methodName = definition.split('(')[0].trim();
+        const methodName = definition.split('(')[0].split(' ')[1].trim();
         if (!(methodName in contract)) {
           setError(`Method ${methodName} not found in contract.`);
           return null;

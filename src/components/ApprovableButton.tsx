@@ -30,14 +30,20 @@ export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
   const [approvalNeeded, setApprovalNeeded] = useState<boolean | null>(null);
   const [pending, setPending] = useState<boolean>(false);
   const [{ wallet }, connect] = useConnectWallet();
-  const { callMethod, execute } = useContracts();
+  const { callMethod, execute, error } = useContracts();
   const { address, chainId } = useConnectWalletSimple();
   const { toMachineReadable, tokenData } = useErc20(token, chainId!);
 
+  useEffect(() => {
+    if (error) {
+      console.error('Error checking approval:', error);
+    }
+  }, [error]);
+
   const checkApproval = async () => {
     try {
-      if (!amount || Number(amount) === 0) {
-        console.warn('Amount is 0, skipping approval check.');
+      if (!amount || Number(amount) === 0 || Number.isNaN(Number(amount))) {
+        console.warn('Amount is 0 or NaN, skipping approval check.');
         return;
       }
       if (!chainId || !token || !spender || !address) {
@@ -45,9 +51,9 @@ export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
         return;
       }
 
-      const allowance = await callMethod(chainId, token, ERC20_ABI.ALLOWANCE, [address, spender]);
+      const allowance = await callMethod(chainId, token, ERC20_ABI.ALLOWANCE, [address, spender]) as BigInt;
       console.log('allowance', allowance);
-      const amountInWei = toMachineReadable(amount);
+      const amountInWei = toMachineReadable(amount) as BigInt;
       console.log('allowance-amountInWei', amountInWei);
       if (amountInWei) {
         setApprovalNeeded(allowance < amountInWei);
@@ -70,6 +76,11 @@ export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
       const amountInWei = toMachineReadable(amount);
       const tx = await execute(token, ERC20_ABI.APPROVE, [spender, amountInWei]);
       console.log('approve tx executed', tx);
+      if (!tx) {
+        console.error('Approval transaction failed.');
+        setPending(false);
+        return;
+      }
 
       // Keep checking the approval status
       const interval = setInterval(async () => {
