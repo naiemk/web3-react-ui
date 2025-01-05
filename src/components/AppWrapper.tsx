@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Web3OnboardProvider } from '@web3-onboard/react'
+import { Web3OnboardProvider, init } from '@web3-onboard/react'
 import injectedModule from '@web3-onboard/injected-wallets'
 // import walletConnectModule from '@web3-onboard/walletconnect'
 import coinbaseModule from '@web3-onboard/coinbase'
 import trustModule from '@web3-onboard/trust'
 import { AppMetadata, Chain, ChainWithDecimalId } from '@web3-onboard/common'
-import { ChainConstants, setWeb3OnboardInit } from "./Types";
+import { ChainConstants } from "./Types";
 import { GlobalCache } from "./LocalCache";
 
 const injected = injectedModule()
@@ -28,13 +28,13 @@ export const AppWrapper = (props: {
   children: React.ReactNode,
   appMetadata: AppMetadata,
   providersConfigUrl: string,
-  web3OnboardInitializer: (data: any) => any,
   configUrlMaps?: { [key: string]: string },
   onError?: (error: Error) => void,
   onConfigLoaded?: (key: string, value: any) => void,
+  onWeb3OnboardInit?: () => void,
 }) => {
   const [chains, setChains] = useState<(Chain | ChainWithDecimalId)[] | null>(null)
-  const [initData, setInitData] = useState<any>(null)
+  const [web3Onboard, setWeb3Onboard] = useState<any>(null)
 
   useEffect(() => {
     if (chains) {
@@ -56,8 +56,9 @@ export const AppWrapper = (props: {
           }
         });
       
-      setWeb3OnboardInit()(w3oInitData);
-      setInitData(w3oInitData)
+      const w3o = init(w3oInitData);
+      setWeb3Onboard(w3o);
+      props.onWeb3OnboardInit && props.onWeb3OnboardInit();
     }
   }, [chains])
 
@@ -94,9 +95,9 @@ export const AppWrapper = (props: {
     loadConfig()
   }, [props.configUrlMaps, props.providersConfigUrl, props.onConfigLoaded])
 
-  if (initData) {
+  if (web3Onboard) {
     return (
-      <Web3OnboardProvider web3Onboard={props.web3OnboardInitializer(initData)}>
+      <Web3OnboardProvider web3Onboard={web3Onboard as any}>
         {props.children}
       </Web3OnboardProvider>
     )
