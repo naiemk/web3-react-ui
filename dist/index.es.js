@@ -226,7 +226,7 @@ function uo(r, t) {
   return e;
 }
 function Yl(r, t) {
-  let e = F(r, "value");
+  let e = U(r, "value");
   const n = BigInt(Q(t, "width")), s = Ae << n - Ae;
   if (e < To) {
     e = -e, v(e <= s, "too low", "NUMERIC_FAULT", {
@@ -248,7 +248,7 @@ function qn(r, t) {
   const e = So(r, "value"), n = BigInt(Q(t, "bits"));
   return e & (Ae << n) - Ae;
 }
-function F(r, t) {
+function U(r, t) {
   switch (typeof r) {
     case "bigint":
       return r;
@@ -266,7 +266,7 @@ function F(r, t) {
   m(!1, "invalid BigNumberish value", t || "value", r);
 }
 function So(r, t) {
-  const e = F(r, t);
+  const e = U(r, t);
   return v(e >= To, "unsigned value cannot be negative", "NUMERIC_FAULT", {
     fault: "overflow",
     operation: "getUint",
@@ -281,7 +281,7 @@ function Uo(r) {
       t += Ic[e >> 4], t += Ic[e & 15];
     return BigInt(t);
   }
-  return F(r);
+  return U(r);
 }
 function Q(r, t) {
   switch (typeof r) {
@@ -1519,7 +1519,7 @@ const En = class En {
    */
   static fromValue(t, e, n) {
     const s = e == null ? 0 : Q(e), i = Yo(n);
-    let o = F(t, "value");
+    let o = U(t, "value");
     const a = s - i.decimals;
     if (a > 0) {
       const c = zn(a);
@@ -2398,12 +2398,12 @@ class Xh extends fu {
     for (let C = 0; C < 16; C++, e += 4)
       wn[C] = t.getUint32(e), An[C] = t.getUint32(e += 4);
     for (let C = 16; C < 80; C++) {
-      const G = wn[C - 15] | 0, k = An[C - 15] | 0, I = _.rotrSH(G, k, 1) ^ _.rotrSH(G, k, 8) ^ _.shrSH(G, k, 7), M = _.rotrSL(G, k, 1) ^ _.rotrSL(G, k, 8) ^ _.shrSL(G, k, 7), S = wn[C - 2] | 0, X = An[C - 2] | 0, j = _.rotrSH(S, X, 19) ^ _.rotrBH(S, X, 61) ^ _.shrSH(S, X, 6), K = _.rotrSL(S, X, 19) ^ _.rotrBL(S, X, 61) ^ _.shrSL(S, X, 6), ct = _.add4L(M, K, An[C - 7], An[C - 16]), ft = _.add4H(ct, I, j, wn[C - 7], wn[C - 16]);
+      const G = wn[C - 15] | 0, R = An[C - 15] | 0, I = _.rotrSH(G, R, 1) ^ _.rotrSH(G, R, 8) ^ _.shrSH(G, R, 7), M = _.rotrSL(G, R, 1) ^ _.rotrSL(G, R, 8) ^ _.shrSL(G, R, 7), F = wn[C - 2] | 0, X = An[C - 2] | 0, j = _.rotrSH(F, X, 19) ^ _.rotrBH(F, X, 61) ^ _.shrSH(F, X, 6), K = _.rotrSL(F, X, 19) ^ _.rotrBL(F, X, 61) ^ _.shrSL(F, X, 6), ct = _.add4L(M, K, An[C - 7], An[C - 16]), ft = _.add4H(ct, I, j, wn[C - 7], wn[C - 16]);
       wn[C] = ft | 0, An[C] = ct | 0;
     }
     let { Ah: n, Al: s, Bh: i, Bl: o, Ch: a, Cl: c, Dh: u, Dl: f, Eh: h, El: p, Fh: w, Fl: E, Gh: y, Gl: x, Hh: N, Hl: O } = this;
     for (let C = 0; C < 80; C++) {
-      const G = _.rotrSH(h, p, 14) ^ _.rotrSH(h, p, 18) ^ _.rotrBH(h, p, 41), k = _.rotrSL(h, p, 14) ^ _.rotrSL(h, p, 18) ^ _.rotrBL(h, p, 41), I = h & w ^ ~h & y, M = p & E ^ ~p & x, S = _.add5L(O, k, M, Zh[C], An[C]), X = _.add5H(S, N, G, I, Yh[C], wn[C]), j = S | 0, K = _.rotrSH(n, s, 28) ^ _.rotrBH(n, s, 34) ^ _.rotrBH(n, s, 39), ct = _.rotrSL(n, s, 28) ^ _.rotrBL(n, s, 34) ^ _.rotrBL(n, s, 39), ft = n & i ^ n & a ^ i & a, Qt = s & o ^ s & c ^ o & c;
+      const G = _.rotrSH(h, p, 14) ^ _.rotrSH(h, p, 18) ^ _.rotrBH(h, p, 41), R = _.rotrSL(h, p, 14) ^ _.rotrSL(h, p, 18) ^ _.rotrBL(h, p, 41), I = h & w ^ ~h & y, M = p & E ^ ~p & x, F = _.add5L(O, R, M, Zh[C], An[C]), X = _.add5H(F, N, G, I, Yh[C], wn[C]), j = F | 0, K = _.rotrSH(n, s, 28) ^ _.rotrBH(n, s, 34) ^ _.rotrBH(n, s, 39), ct = _.rotrSL(n, s, 28) ^ _.rotrBL(n, s, 34) ^ _.rotrBL(n, s, 39), ft = n & i ^ n & a ^ i & a, Qt = s & o ^ s & c ^ o & c;
       N = y | 0, O = x | 0, y = w | 0, x = E | 0, w = h | 0, E = p | 0, { h, l: p } = _.add(u | 0, f | 0, X | 0, j | 0), u = a | 0, f = c | 0, a = i | 0, c = o | 0, i = n | 0, o = s | 0;
       const B = _.add3L(j, ct, Qt);
       n = _.add3H(B, X, K, ft), s = B | 0;
@@ -3230,7 +3230,7 @@ function Ld(r) {
      */
     equals(y) {
       f(y);
-      const { px: x, py: N, pz: O } = this, { px: C, py: G, pz: k } = y, I = e.eql(e.mul(x, k), e.mul(C, O)), M = e.eql(e.mul(N, k), e.mul(G, O));
+      const { px: x, py: N, pz: O } = this, { px: C, py: G, pz: R } = y, I = e.eql(e.mul(x, R), e.mul(C, O)), M = e.eql(e.mul(N, R), e.mul(G, O));
       return I && M;
     }
     /**
@@ -3245,8 +3245,8 @@ function Ld(r) {
     // Cost: 8M + 3S + 3*a + 2*b3 + 15add.
     double() {
       const { a: y, b: x } = t, N = e.mul(x, Kc), { px: O, py: C, pz: G } = this;
-      let k = e.ZERO, I = e.ZERO, M = e.ZERO, S = e.mul(O, O), X = e.mul(C, C), j = e.mul(G, G), K = e.mul(O, C);
-      return K = e.add(K, K), M = e.mul(O, G), M = e.add(M, M), k = e.mul(y, M), I = e.mul(N, j), I = e.add(k, I), k = e.sub(X, I), I = e.add(X, I), I = e.mul(k, I), k = e.mul(K, k), M = e.mul(N, M), j = e.mul(y, j), K = e.sub(S, j), K = e.mul(y, K), K = e.add(K, M), M = e.add(S, S), S = e.add(M, S), S = e.add(S, j), S = e.mul(S, K), I = e.add(I, S), j = e.mul(C, G), j = e.add(j, j), S = e.mul(j, K), k = e.sub(k, S), M = e.mul(j, X), M = e.add(M, M), M = e.add(M, M), new h(k, I, M);
+      let R = e.ZERO, I = e.ZERO, M = e.ZERO, F = e.mul(O, O), X = e.mul(C, C), j = e.mul(G, G), K = e.mul(O, C);
+      return K = e.add(K, K), M = e.mul(O, G), M = e.add(M, M), R = e.mul(y, M), I = e.mul(N, j), I = e.add(R, I), R = e.sub(X, I), I = e.add(X, I), I = e.mul(R, I), R = e.mul(K, R), M = e.mul(N, M), j = e.mul(y, j), K = e.sub(F, j), K = e.mul(y, K), K = e.add(K, M), M = e.add(F, F), F = e.add(M, F), F = e.add(F, j), F = e.mul(F, K), I = e.add(I, F), j = e.mul(C, G), j = e.add(j, j), F = e.mul(j, K), R = e.sub(R, F), M = e.mul(j, X), M = e.add(M, M), M = e.add(M, M), new h(R, I, M);
     }
     // Renes-Costello-Batina exception-free addition formula.
     // There is 30% faster Jacobian formula, but it is not complete.
@@ -3254,13 +3254,13 @@ function Ld(r) {
     // Cost: 12M + 0S + 3*a + 3*b3 + 23add.
     add(y) {
       f(y);
-      const { px: x, py: N, pz: O } = this, { px: C, py: G, pz: k } = y;
-      let I = e.ZERO, M = e.ZERO, S = e.ZERO;
+      const { px: x, py: N, pz: O } = this, { px: C, py: G, pz: R } = y;
+      let I = e.ZERO, M = e.ZERO, F = e.ZERO;
       const X = t.a, j = e.mul(t.b, Kc);
-      let K = e.mul(x, C), ct = e.mul(N, G), ft = e.mul(O, k), Qt = e.add(x, N), B = e.add(C, G);
+      let K = e.mul(x, C), ct = e.mul(N, G), ft = e.mul(O, R), Qt = e.add(x, N), B = e.add(C, G);
       Qt = e.mul(Qt, B), B = e.add(K, ct), Qt = e.sub(Qt, B), B = e.add(x, O);
-      let U = e.add(C, k);
-      return B = e.mul(B, U), U = e.add(K, ft), B = e.sub(B, U), U = e.add(N, O), I = e.add(G, k), U = e.mul(U, I), I = e.add(ct, ft), U = e.sub(U, I), S = e.mul(X, B), I = e.mul(j, ft), S = e.add(I, S), I = e.sub(ct, S), S = e.add(ct, S), M = e.mul(I, S), ct = e.add(K, K), ct = e.add(ct, K), ft = e.mul(X, ft), B = e.mul(j, B), ct = e.add(ct, ft), ft = e.sub(K, ft), ft = e.mul(X, ft), B = e.add(B, ft), K = e.mul(ct, B), M = e.add(M, K), K = e.mul(U, B), I = e.mul(Qt, I), I = e.sub(I, K), K = e.mul(Qt, ct), S = e.mul(U, S), S = e.add(S, K), new h(I, M, S);
+      let S = e.add(C, R);
+      return B = e.mul(B, S), S = e.add(K, ft), B = e.sub(B, S), S = e.add(N, O), I = e.add(G, R), S = e.mul(S, I), I = e.add(ct, ft), S = e.sub(S, I), F = e.mul(X, B), I = e.mul(j, ft), F = e.add(I, F), I = e.sub(ct, F), F = e.add(ct, F), M = e.mul(I, F), ct = e.add(K, K), ct = e.add(ct, K), ft = e.mul(X, ft), B = e.mul(j, B), ct = e.add(ct, ft), ft = e.sub(K, ft), ft = e.mul(X, ft), B = e.add(B, ft), K = e.mul(ct, B), M = e.add(M, K), K = e.mul(S, B), I = e.mul(Qt, I), I = e.sub(I, K), K = e.mul(Qt, ct), F = e.mul(S, F), F = e.add(F, K), new h(I, M, F);
     }
     subtract(y) {
       return this.add(y.negate());
@@ -3288,9 +3288,9 @@ function Ld(r) {
       const { endo: N } = t;
       if (!N)
         return w.unsafeLadder(this, y);
-      let { k1neg: O, k1: C, k2neg: G, k2: k } = N.splitScalar(y), I = x, M = x, S = this;
-      for (; C > an || k > an; )
-        C & le && (I = I.add(S)), k & le && (M = M.add(S)), S = S.double(), C >>= le, k >>= le;
+      let { k1neg: O, k1: C, k2neg: G, k2: R } = N.splitScalar(y), I = x, M = x, F = this;
+      for (; C > an || R > an; )
+        C & le && (I = I.add(F)), R & le && (M = M.add(F)), F = F.double(), C >>= le, R >>= le;
       return O && (I = I.negate()), G && (M = M.negate()), M = new h(e.mul(M.px, N.beta), M.py, M.pz), I.add(M);
     }
     /**
@@ -3307,12 +3307,12 @@ function Ld(r) {
       let x = y, N, O;
       const { endo: C } = t;
       if (C) {
-        const { k1neg: G, k1: k, k2neg: I, k2: M } = C.splitScalar(x);
-        let { p: S, f: X } = this.wNAF(k), { p: j, f: K } = this.wNAF(M);
-        S = w.constTimeNegate(G, S), j = w.constTimeNegate(I, j), j = new h(e.mul(j.px, C.beta), j.py, j.pz), N = S.add(j), O = X.add(K);
+        const { k1neg: G, k1: R, k2neg: I, k2: M } = C.splitScalar(x);
+        let { p: F, f: X } = this.wNAF(R), { p: j, f: K } = this.wNAF(M);
+        F = w.constTimeNegate(G, F), j = w.constTimeNegate(I, j), j = new h(e.mul(j.px, C.beta), j.py, j.pz), N = F.add(j), O = X.add(K);
       } else {
-        const { p: G, f: k } = this.wNAF(x);
-        N = G, O = k;
+        const { p: G, f: R } = this.wNAF(x);
+        N = G, O = R;
       }
       return h.normalizeZ([N, O])[0];
     }
@@ -3323,7 +3323,7 @@ function Ld(r) {
      * @returns non-zero affine point
      */
     multiplyAndAddUnsafe(y, x, N) {
-      const O = h.BASE, C = (k, I) => I === an || I === le || !k.equals(O) ? k.multiplyUnsafe(I) : k.multiply(I), G = C(this, x).add(C(y, N));
+      const O = h.BASE, C = (R, I) => I === an || I === le || !R.equals(O) ? R.multiplyUnsafe(I) : R.multiply(I), G = C(this, x).add(C(y, N));
       return G.is0() ? void 0 : G;
     }
     // Converts Projective point to affine (x, y) coordinates.
@@ -3332,12 +3332,12 @@ function Ld(r) {
     toAffine(y) {
       const { px: x, py: N, pz: O } = this, C = this.is0();
       y == null && (y = C ? e.ONE : e.inv(O));
-      const G = e.mul(x, y), k = e.mul(N, y), I = e.mul(O, y);
+      const G = e.mul(x, y), R = e.mul(N, y), I = e.mul(O, y);
       if (C)
         return { x: e.ZERO, y: e.ZERO };
       if (!e.eql(I, e.ONE))
         throw new Error("invZ was invalid");
-      return { x: G, y: k };
+      return { x: G, y: R };
     }
     isTorsionFree() {
       const { h: y, isTorsionFree: x } = t;
@@ -3393,13 +3393,13 @@ function Md(r) {
   }
   const { ProjectivePoint: u, normPrivateKeyToScalar: f, weierstrassEquation: h, isWithinCurveOrder: p } = Ld({
     ...t,
-    toBytes(B, U, V) {
-      const rt = U.toAffine(), W = e.toBytes(rt.x), ht = di;
-      return V ? ht(Uint8Array.from([U.hasEvenY() ? 2 : 3]), W) : ht(Uint8Array.from([4]), W, e.toBytes(rt.y));
+    toBytes(B, S, V) {
+      const rt = S.toAffine(), W = e.toBytes(rt.x), ht = di;
+      return V ? ht(Uint8Array.from([S.hasEvenY() ? 2 : 3]), W) : ht(Uint8Array.from([4]), W, e.toBytes(rt.y));
     },
     fromBytes(B) {
-      const U = B.length, V = B[0], rt = B.subarray(1);
-      if (U === s && (V === 2 || V === 3)) {
+      const S = B.length, V = B[0], rt = B.subarray(1);
+      if (S === s && (V === 2 || V === 3)) {
         const W = xr(rt);
         if (!o(W))
           throw new Error("Point is not on curve");
@@ -3407,34 +3407,34 @@ function Md(r) {
         let dt = e.sqrt(ht);
         const Rt = (dt & le) === le;
         return (V & 1) === 1 !== Rt && (dt = e.neg(dt)), { x: W, y: dt };
-      } else if (U === i && V === 4) {
+      } else if (S === i && V === 4) {
         const W = e.fromBytes(rt.subarray(0, e.BYTES)), ht = e.fromBytes(rt.subarray(e.BYTES, 2 * e.BYTES));
         return { x: W, y: ht };
       } else
-        throw new Error(`Point of length ${U} was invalid. Expected ${s} compressed bytes or ${i} uncompressed bytes`);
+        throw new Error(`Point of length ${S} was invalid. Expected ${s} compressed bytes or ${i} uncompressed bytes`);
     }
   }), w = (B) => Vs(_s(B, t.nByteLength));
   function E(B) {
-    const U = n >> le;
-    return B > U;
+    const S = n >> le;
+    return B > S;
   }
   function y(B) {
     return E(B) ? a(-B) : B;
   }
-  const x = (B, U, V) => xr(B.slice(U, V));
+  const x = (B, S, V) => xr(B.slice(S, V));
   class N {
-    constructor(U, V, rt) {
-      this.r = U, this.s = V, this.recovery = rt, this.assertValidity();
+    constructor(S, V, rt) {
+      this.r = S, this.s = V, this.recovery = rt, this.assertValidity();
     }
     // pair (bytes of r, bytes of s)
-    static fromCompact(U) {
+    static fromCompact(S) {
       const V = t.nByteLength;
-      return U = de("compactSignature", U, V * 2), new N(x(U, 0, V), x(U, V, 2 * V));
+      return S = de("compactSignature", S, V * 2), new N(x(S, 0, V), x(S, V, 2 * V));
     }
     // DER encoded ECDSA signature
     // https://bitcoin.stackexchange.com/questions/57644/what-are-the-parts-of-a-bitcoin-transaction-input-script
-    static fromDER(U) {
-      const { r: V, s: rt } = $n.toSig(de("DER", U));
+    static fromDER(S) {
+      const { r: V, s: rt } = $n.toSig(de("DER", S));
       return new N(V, rt);
     }
     assertValidity() {
@@ -3443,11 +3443,11 @@ function Md(r) {
       if (!p(this.s))
         throw new Error("s must be 0 < s < CURVE.n");
     }
-    addRecoveryBit(U) {
-      return new N(this.r, this.s, U);
+    addRecoveryBit(S) {
+      return new N(this.r, this.s, S);
     }
-    recoverPublicKey(U) {
-      const { r: V, s: rt, recovery: W } = this, ht = M(de("msgHash", U));
+    recoverPublicKey(S) {
+      const { r: V, s: rt, recovery: W } = this, ht = M(de("msgHash", S));
       if (W == null || ![0, 1, 2, 3].includes(W))
         throw new Error("recovery id invalid");
       const dt = W === 2 || W === 3 ? V + t.n : V;
@@ -3505,44 +3505,44 @@ function Md(r) {
      * const fast = utils.precompute(8, ProjectivePoint.fromHex(someonesPubKey));
      * fast.multiply(privKey); // much faster ECDH now
      */
-    precompute(B = 8, U = u.BASE) {
-      return U._setWindowSize(B), U.multiply(BigInt(3)), U;
+    precompute(B = 8, S = u.BASE) {
+      return S._setWindowSize(B), S.multiply(BigInt(3)), S;
     }
   };
-  function C(B, U = !0) {
-    return u.fromPrivateKey(B).toRawBytes(U);
+  function C(B, S = !0) {
+    return u.fromPrivateKey(B).toRawBytes(S);
   }
   function G(B) {
-    const U = B instanceof Uint8Array, V = typeof B == "string", rt = (U || V) && B.length;
-    return U ? rt === s || rt === i : V ? rt === 2 * s || rt === 2 * i : B instanceof u;
+    const S = B instanceof Uint8Array, V = typeof B == "string", rt = (S || V) && B.length;
+    return S ? rt === s || rt === i : V ? rt === 2 * s || rt === 2 * i : B instanceof u;
   }
-  function k(B, U, V = !0) {
+  function R(B, S, V = !0) {
     if (G(B))
       throw new Error("first arg must be private key");
-    if (!G(U))
+    if (!G(S))
       throw new Error("second arg must be public key");
-    return u.fromHex(U).multiply(f(B)).toRawBytes(V);
+    return u.fromHex(S).multiply(f(B)).toRawBytes(V);
   }
   const I = t.bits2int || function(B) {
-    const U = xr(B), V = B.length * 8 - t.nBitLength;
-    return V > 0 ? U >> BigInt(V) : U;
+    const S = xr(B), V = B.length * 8 - t.nBitLength;
+    return V > 0 ? S >> BigInt(V) : S;
   }, M = t.bits2int_modN || function(B) {
     return a(I(B));
-  }, S = ac(t.nBitLength);
+  }, F = ac(t.nBitLength);
   function X(B) {
     if (typeof B != "bigint")
       throw new Error("bigint expected");
-    if (!(an <= B && B < S))
+    if (!(an <= B && B < F))
       throw new Error(`bigint expected < 2^${t.nBitLength}`);
     return _s(B, t.nByteLength);
   }
-  function j(B, U, V = K) {
+  function j(B, S, V = K) {
     if (["recovered", "canonical"].some((Ne) => Ne in V))
       throw new Error("sign() legacy options not supported");
     const { hash: rt, randomBytes: W } = t;
     let { lowS: ht, prehash: dt, extraEntropy: Rt } = V;
     ht == null && (ht = !0), B = de("msgHash", B), dt && (B = de("prehashed msgHash", rt(B)));
-    const ee = M(B), Vt = f(U), Ge = [X(Vt), X(ee)];
+    const ee = M(B), Vt = f(S), Ge = [X(Vt), X(ee)];
     if (Rt != null) {
       const Ne = Rt === !0 ? W(e.BYTES) : Rt;
       Ge.push(de("extraEntropy", Ne));
@@ -3564,15 +3564,15 @@ function Md(r) {
     return { seed: pn, k2sig: Sr };
   }
   const K = { lowS: t.lowS, prehash: !1 }, ct = { lowS: t.lowS, prehash: !1 };
-  function ft(B, U, V = K) {
-    const { seed: rt, k2sig: W } = j(B, U, V), ht = t;
+  function ft(B, S, V = K) {
+    const { seed: rt, k2sig: W } = j(B, S, V), ht = t;
     return ku(ht.hash.outputLen, ht.nByteLength, ht.hmac)(rt, W);
   }
   u.BASE._setWindowSize(8);
-  function Qt(B, U, V, rt = ct) {
+  function Qt(B, S, V, rt = ct) {
     var ve;
     const W = B;
-    if (U = de("msgHash", U), V = de("publicKey", V), "strict" in rt)
+    if (S = de("msgHash", S), V = de("publicKey", V), "strict" in rt)
       throw new Error("options.strict was renamed to lowS");
     const { lowS: ht, prehash: dt } = rt;
     let Rt, ee;
@@ -3598,14 +3598,14 @@ function Md(r) {
     }
     if (ht && Rt.hasHighS())
       return !1;
-    dt && (U = t.hash(U));
-    const { r: Vt, s: Ge } = Rt, pn = M(U), ue = c(Ge), Sr = a(pn * ue), Ne = a(Vt * ue), He = (ve = u.BASE.multiplyAndAddUnsafe(ee, Sr, Ne)) == null ? void 0 : ve.toAffine();
+    dt && (S = t.hash(S));
+    const { r: Vt, s: Ge } = Rt, pn = M(S), ue = c(Ge), Sr = a(pn * ue), Ne = a(Vt * ue), He = (ve = u.BASE.multiplyAndAddUnsafe(ee, Sr, Ne)) == null ? void 0 : ve.toAffine();
     return He ? a(He.x) === Vt : !1;
   }
   return {
     CURVE: t,
     getPublicKey: C,
-    getSharedSecret: k,
+    getSharedSecret: R,
     sign: ft,
     verify: Qt,
     ProjectivePoint: u,
@@ -3628,7 +3628,7 @@ function Hd(r, t) {
 /*! noble-curves - MIT License (c) 2022 Paul Miller (paulmillr.com) */
 const Fu = BigInt("0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f"), jc = BigInt("0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141"), Qd = BigInt(1), Ba = BigInt(2), Wc = (r, t) => (r + t / Ba) / t;
 function Vd(r) {
-  const t = Fu, e = BigInt(3), n = BigInt(6), s = BigInt(11), i = BigInt(22), o = BigInt(23), a = BigInt(44), c = BigInt(88), u = r * r * r % t, f = u * u * r % t, h = ne(f, e, t) * f % t, p = ne(h, e, t) * f % t, w = ne(p, Ba, t) * u % t, E = ne(w, s, t) * w % t, y = ne(E, i, t) * E % t, x = ne(y, a, t) * y % t, N = ne(x, c, t) * x % t, O = ne(N, a, t) * y % t, C = ne(O, e, t) * f % t, G = ne(C, o, t) * E % t, k = ne(G, n, t) * u % t, I = ne(k, Ba, t);
+  const t = Fu, e = BigInt(3), n = BigInt(6), s = BigInt(11), i = BigInt(22), o = BigInt(23), a = BigInt(44), c = BigInt(88), u = r * r * r % t, f = u * u * r % t, h = ne(f, e, t) * f % t, p = ne(h, e, t) * f % t, w = ne(p, Ba, t) * u % t, E = ne(w, s, t) * w % t, y = ne(E, i, t) * E % t, x = ne(y, a, t) * y % t, N = ne(x, c, t) * x % t, O = ne(N, a, t) * y % t, C = ne(O, e, t) * f % t, G = ne(C, o, t) * E % t, R = ne(G, n, t) * u % t, I = ne(R, Ba, t);
   if (!Oa.eql(Oa.sqr(I), r))
     throw new Error("Cannot find square root");
   return I;
@@ -3796,7 +3796,7 @@ const he = class he {
    *    //_result:
    */
   static getChainId(t) {
-    const e = F(t, "v");
+    const e = U(t, "v");
     return e == $c || e == tl ? Zc : (m(e >= ji, "invalid EIP-155 v", "v", t), (e - ji) / qc);
   }
   /**
@@ -3814,7 +3814,7 @@ const he = class he {
    *
    */
   static getChainIdV(t, e) {
-    return F(t) * qc + BigInt(35 + e - 27);
+    return U(t) * qc + BigInt(35 + e - 27);
   }
   /**
    *  Compute the normalized legacy transaction ``v`` from a ``yParirty``,
@@ -3838,7 +3838,7 @@ const he = class he {
    *    //_error:
    */
   static getNormalizedV(t) {
-    const e = F(t);
+    const e = U(t);
     return e === Zc || e === $c ? 27 : e === Xc || e === tl ? 28 : (m(e >= ji, "invalid v", "v", t), e & Xc ? 27 : 28);
   }
   /**
@@ -3886,7 +3886,7 @@ const he = class he {
     e((Z(i)[0] & 128) == 0, "non-canonical s");
     const { networkV: o, v: a } = function(u, f, h) {
       if (u != null) {
-        const p = F(u);
+        const p = U(u);
         return {
           networkV: p >= ji ? p : void 0,
           v: he.getNormalizedV(p)
@@ -4126,7 +4126,7 @@ function nt(r) {
 }
 function Wd(r) {
   const t = nt(r.from);
-  let n = F(r.nonce, "tx.nonce").toString(16);
+  let n = U(r.nonce, "tx.nonce").toString(16);
   return n === "0" ? n = "0x" : n.length % 2 ? n = "0x0" + n : n = "0x" + n, nt(ut(wt(Cr([t, n])), 12));
 }
 function Lu(r) {
@@ -4146,7 +4146,7 @@ function Gt(r, t) {
   m(!1, "unsupported addressable value", "target", r);
 }
 const _e = {};
-function R(r, t) {
+function k(r, t) {
   let e = !1;
   return t < 0 && (e = !0, t *= -1), new kt(_e, `${e ? "" : "u"}int${t}`, r, { signed: e, width: t });
 }
@@ -4253,397 +4253,397 @@ const ze = class ze {
    *  Return a new ``uint8`` type for %%v%%.
    */
   static uint8(t) {
-    return R(t, 8);
+    return k(t, 8);
   }
   /**
    *  Return a new ``uint16`` type for %%v%%.
    */
   static uint16(t) {
-    return R(t, 16);
+    return k(t, 16);
   }
   /**
    *  Return a new ``uint24`` type for %%v%%.
    */
   static uint24(t) {
-    return R(t, 24);
+    return k(t, 24);
   }
   /**
    *  Return a new ``uint32`` type for %%v%%.
    */
   static uint32(t) {
-    return R(t, 32);
+    return k(t, 32);
   }
   /**
    *  Return a new ``uint40`` type for %%v%%.
    */
   static uint40(t) {
-    return R(t, 40);
+    return k(t, 40);
   }
   /**
    *  Return a new ``uint48`` type for %%v%%.
    */
   static uint48(t) {
-    return R(t, 48);
+    return k(t, 48);
   }
   /**
    *  Return a new ``uint56`` type for %%v%%.
    */
   static uint56(t) {
-    return R(t, 56);
+    return k(t, 56);
   }
   /**
    *  Return a new ``uint64`` type for %%v%%.
    */
   static uint64(t) {
-    return R(t, 64);
+    return k(t, 64);
   }
   /**
    *  Return a new ``uint72`` type for %%v%%.
    */
   static uint72(t) {
-    return R(t, 72);
+    return k(t, 72);
   }
   /**
    *  Return a new ``uint80`` type for %%v%%.
    */
   static uint80(t) {
-    return R(t, 80);
+    return k(t, 80);
   }
   /**
    *  Return a new ``uint88`` type for %%v%%.
    */
   static uint88(t) {
-    return R(t, 88);
+    return k(t, 88);
   }
   /**
    *  Return a new ``uint96`` type for %%v%%.
    */
   static uint96(t) {
-    return R(t, 96);
+    return k(t, 96);
   }
   /**
    *  Return a new ``uint104`` type for %%v%%.
    */
   static uint104(t) {
-    return R(t, 104);
+    return k(t, 104);
   }
   /**
    *  Return a new ``uint112`` type for %%v%%.
    */
   static uint112(t) {
-    return R(t, 112);
+    return k(t, 112);
   }
   /**
    *  Return a new ``uint120`` type for %%v%%.
    */
   static uint120(t) {
-    return R(t, 120);
+    return k(t, 120);
   }
   /**
    *  Return a new ``uint128`` type for %%v%%.
    */
   static uint128(t) {
-    return R(t, 128);
+    return k(t, 128);
   }
   /**
    *  Return a new ``uint136`` type for %%v%%.
    */
   static uint136(t) {
-    return R(t, 136);
+    return k(t, 136);
   }
   /**
    *  Return a new ``uint144`` type for %%v%%.
    */
   static uint144(t) {
-    return R(t, 144);
+    return k(t, 144);
   }
   /**
    *  Return a new ``uint152`` type for %%v%%.
    */
   static uint152(t) {
-    return R(t, 152);
+    return k(t, 152);
   }
   /**
    *  Return a new ``uint160`` type for %%v%%.
    */
   static uint160(t) {
-    return R(t, 160);
+    return k(t, 160);
   }
   /**
    *  Return a new ``uint168`` type for %%v%%.
    */
   static uint168(t) {
-    return R(t, 168);
+    return k(t, 168);
   }
   /**
    *  Return a new ``uint176`` type for %%v%%.
    */
   static uint176(t) {
-    return R(t, 176);
+    return k(t, 176);
   }
   /**
    *  Return a new ``uint184`` type for %%v%%.
    */
   static uint184(t) {
-    return R(t, 184);
+    return k(t, 184);
   }
   /**
    *  Return a new ``uint192`` type for %%v%%.
    */
   static uint192(t) {
-    return R(t, 192);
+    return k(t, 192);
   }
   /**
    *  Return a new ``uint200`` type for %%v%%.
    */
   static uint200(t) {
-    return R(t, 200);
+    return k(t, 200);
   }
   /**
    *  Return a new ``uint208`` type for %%v%%.
    */
   static uint208(t) {
-    return R(t, 208);
+    return k(t, 208);
   }
   /**
    *  Return a new ``uint216`` type for %%v%%.
    */
   static uint216(t) {
-    return R(t, 216);
+    return k(t, 216);
   }
   /**
    *  Return a new ``uint224`` type for %%v%%.
    */
   static uint224(t) {
-    return R(t, 224);
+    return k(t, 224);
   }
   /**
    *  Return a new ``uint232`` type for %%v%%.
    */
   static uint232(t) {
-    return R(t, 232);
+    return k(t, 232);
   }
   /**
    *  Return a new ``uint240`` type for %%v%%.
    */
   static uint240(t) {
-    return R(t, 240);
+    return k(t, 240);
   }
   /**
    *  Return a new ``uint248`` type for %%v%%.
    */
   static uint248(t) {
-    return R(t, 248);
+    return k(t, 248);
   }
   /**
    *  Return a new ``uint256`` type for %%v%%.
    */
   static uint256(t) {
-    return R(t, 256);
+    return k(t, 256);
   }
   /**
    *  Return a new ``uint256`` type for %%v%%.
    */
   static uint(t) {
-    return R(t, 256);
+    return k(t, 256);
   }
   /**
    *  Return a new ``int8`` type for %%v%%.
    */
   static int8(t) {
-    return R(t, -8);
+    return k(t, -8);
   }
   /**
    *  Return a new ``int16`` type for %%v%%.
    */
   static int16(t) {
-    return R(t, -16);
+    return k(t, -16);
   }
   /**
    *  Return a new ``int24`` type for %%v%%.
    */
   static int24(t) {
-    return R(t, -24);
+    return k(t, -24);
   }
   /**
    *  Return a new ``int32`` type for %%v%%.
    */
   static int32(t) {
-    return R(t, -32);
+    return k(t, -32);
   }
   /**
    *  Return a new ``int40`` type for %%v%%.
    */
   static int40(t) {
-    return R(t, -40);
+    return k(t, -40);
   }
   /**
    *  Return a new ``int48`` type for %%v%%.
    */
   static int48(t) {
-    return R(t, -48);
+    return k(t, -48);
   }
   /**
    *  Return a new ``int56`` type for %%v%%.
    */
   static int56(t) {
-    return R(t, -56);
+    return k(t, -56);
   }
   /**
    *  Return a new ``int64`` type for %%v%%.
    */
   static int64(t) {
-    return R(t, -64);
+    return k(t, -64);
   }
   /**
    *  Return a new ``int72`` type for %%v%%.
    */
   static int72(t) {
-    return R(t, -72);
+    return k(t, -72);
   }
   /**
    *  Return a new ``int80`` type for %%v%%.
    */
   static int80(t) {
-    return R(t, -80);
+    return k(t, -80);
   }
   /**
    *  Return a new ``int88`` type for %%v%%.
    */
   static int88(t) {
-    return R(t, -88);
+    return k(t, -88);
   }
   /**
    *  Return a new ``int96`` type for %%v%%.
    */
   static int96(t) {
-    return R(t, -96);
+    return k(t, -96);
   }
   /**
    *  Return a new ``int104`` type for %%v%%.
    */
   static int104(t) {
-    return R(t, -104);
+    return k(t, -104);
   }
   /**
    *  Return a new ``int112`` type for %%v%%.
    */
   static int112(t) {
-    return R(t, -112);
+    return k(t, -112);
   }
   /**
    *  Return a new ``int120`` type for %%v%%.
    */
   static int120(t) {
-    return R(t, -120);
+    return k(t, -120);
   }
   /**
    *  Return a new ``int128`` type for %%v%%.
    */
   static int128(t) {
-    return R(t, -128);
+    return k(t, -128);
   }
   /**
    *  Return a new ``int136`` type for %%v%%.
    */
   static int136(t) {
-    return R(t, -136);
+    return k(t, -136);
   }
   /**
    *  Return a new ``int144`` type for %%v%%.
    */
   static int144(t) {
-    return R(t, -144);
+    return k(t, -144);
   }
   /**
    *  Return a new ``int52`` type for %%v%%.
    */
   static int152(t) {
-    return R(t, -152);
+    return k(t, -152);
   }
   /**
    *  Return a new ``int160`` type for %%v%%.
    */
   static int160(t) {
-    return R(t, -160);
+    return k(t, -160);
   }
   /**
    *  Return a new ``int168`` type for %%v%%.
    */
   static int168(t) {
-    return R(t, -168);
+    return k(t, -168);
   }
   /**
    *  Return a new ``int176`` type for %%v%%.
    */
   static int176(t) {
-    return R(t, -176);
+    return k(t, -176);
   }
   /**
    *  Return a new ``int184`` type for %%v%%.
    */
   static int184(t) {
-    return R(t, -184);
+    return k(t, -184);
   }
   /**
    *  Return a new ``int92`` type for %%v%%.
    */
   static int192(t) {
-    return R(t, -192);
+    return k(t, -192);
   }
   /**
    *  Return a new ``int200`` type for %%v%%.
    */
   static int200(t) {
-    return R(t, -200);
+    return k(t, -200);
   }
   /**
    *  Return a new ``int208`` type for %%v%%.
    */
   static int208(t) {
-    return R(t, -208);
+    return k(t, -208);
   }
   /**
    *  Return a new ``int216`` type for %%v%%.
    */
   static int216(t) {
-    return R(t, -216);
+    return k(t, -216);
   }
   /**
    *  Return a new ``int224`` type for %%v%%.
    */
   static int224(t) {
-    return R(t, -224);
+    return k(t, -224);
   }
   /**
    *  Return a new ``int232`` type for %%v%%.
    */
   static int232(t) {
-    return R(t, -232);
+    return k(t, -232);
   }
   /**
    *  Return a new ``int240`` type for %%v%%.
    */
   static int240(t) {
-    return R(t, -240);
+    return k(t, -240);
   }
   /**
    *  Return a new ``int248`` type for %%v%%.
    */
   static int248(t) {
-    return R(t, -248);
+    return k(t, -248);
   }
   /**
    *  Return a new ``int256`` type for %%v%%.
    */
   static int256(t) {
-    return R(t, -256);
+    return k(t, -256);
   }
   /**
    *  Return a new ``int256`` type for %%v%%.
    */
   static int(t) {
-    return R(t, -256);
+    return k(t, -256);
   }
   /**
    *  Return a new ``bytes1`` type for %%v%%.
@@ -5114,7 +5114,7 @@ class op extends dn {
     return 0;
   }
   encode(e, n) {
-    let s = F(kt.dereference(n, this.type)), i = qn(ip, Mt * 8);
+    let s = U(kt.dereference(n, this.type)), i = qn(ip, Mt * 8);
     if (this.signed) {
       let o = qn(i, this.size * 8 - 1);
       (s > o || s < -(o + sp)) && this._throwError("value out-of-bounds", n), s = Yl(s, 8 * Mt);
@@ -5185,7 +5185,7 @@ function lp(r) {
     return r[t++] << 8 | r[t++];
   }
   let n = e(), s = 1, i = [0, 1];
-  for (let k = 1; k < n; k++)
+  for (let R = 1; R < n; R++)
     i.push(s += e());
   let o = e(), a = t;
   t += o;
@@ -5195,26 +5195,26 @@ function lp(r) {
   }
   const h = 31, p = 2 ** h, w = p >>> 1, E = w >> 1, y = p - 1;
   let x = 0;
-  for (let k = 0; k < h; k++) x = x << 1 | f();
+  for (let R = 0; R < h; R++) x = x << 1 | f();
   let N = [], O = 0, C = p;
   for (; ; ) {
-    let k = Math.floor(((x - O + 1) * s - 1) / C), I = 0, M = n;
+    let R = Math.floor(((x - O + 1) * s - 1) / C), I = 0, M = n;
     for (; M - I > 1; ) {
       let j = I + M >>> 1;
-      k < i[j] ? M = j : I = j;
+      R < i[j] ? M = j : I = j;
     }
     if (I == 0) break;
     N.push(I);
-    let S = O + Math.floor(C * i[I] / s), X = O + Math.floor(C * i[I + 1] / s) - 1;
-    for (; !((S ^ X) & w); )
-      x = x << 1 & y | f(), S = S << 1 & y, X = X << 1 & y | 1;
-    for (; S & ~X & E; )
-      x = x & w | x << 1 & y >>> 1 | f(), S = S << 1 ^ w, X = (X ^ w) << 1 | w | 1;
-    O = S, C = 1 + X - S;
+    let F = O + Math.floor(C * i[I] / s), X = O + Math.floor(C * i[I + 1] / s) - 1;
+    for (; !((F ^ X) & w); )
+      x = x << 1 & y | f(), F = F << 1 & y, X = X << 1 & y | 1;
+    for (; F & ~X & E; )
+      x = x & w | x << 1 & y >>> 1 | f(), F = F << 1 ^ w, X = (X ^ w) << 1 | w | 1;
+    O = F, C = 1 + X - F;
   }
   let G = n - 4;
-  return N.map((k) => {
-    switch (k - G) {
+  return N.map((R) => {
+    switch (R - G) {
       case 3:
         return G + 65792 + (r[a++] << 16 | r[a++] << 8 | r[a++]);
       case 2:
@@ -5222,7 +5222,7 @@ function lp(r) {
       case 1:
         return G + r[a++];
       default:
-        return k - 1;
+        return R - 1;
     }
   });
 }
@@ -5791,11 +5791,11 @@ function Di(r, t) {
 function mt(r, t) {
   if (r === "0x")
     return bt;
-  const e = F(r, t);
+  const e = U(r, t);
   return m(e <= qp, "value exceeds uint size", t, e), e;
 }
 function it(r, t) {
-  const e = F(r, "value"), n = Dt(e);
+  const e = U(r, "value"), n = Dt(e);
   return m(n.length <= 32, "value too large", `tx.${t}`, e), n;
 }
 function dc(r) {
@@ -5846,7 +5846,7 @@ function eg(r, t) {
   ];
   let n = bt;
   if (r.chainId != bt)
-    n = F(r.chainId, "tx.chainId"), m(!t || t.networkV == null || t.legacyChainId === n, "tx.chainId/sig.v mismatch", "sig", t);
+    n = U(r.chainId, "tx.chainId"), m(!t || t.networkV == null || t.legacyChainId === n, "tx.chainId/sig.v mismatch", "sig", t);
   else if (r.signature) {
     const i = r.signature.legacyChainId;
     i != null && (n = i);
@@ -6092,7 +6092,7 @@ const Ke = class Ke {
     return l(this, ps);
   }
   set gasLimit(t) {
-    d(this, ps, F(t));
+    d(this, ps, U(t));
   }
   /**
    *  The gas price.
@@ -6105,7 +6105,7 @@ const Ke = class Ke {
     return t == null && (this.type === 0 || this.type === 1) ? bt : t;
   }
   set gasPrice(t) {
-    d(this, gs, t == null ? null : F(t, "gasPrice"));
+    d(this, gs, t == null ? null : U(t, "gasPrice"));
   }
   /**
    *  The maximum priority fee per unit of gas to pay. On legacy
@@ -6116,7 +6116,7 @@ const Ke = class Ke {
     return t ?? (this.type === 2 || this.type === 3 ? bt : null);
   }
   set maxPriorityFeePerGas(t) {
-    d(this, ms, t == null ? null : F(t, "maxPriorityFeePerGas"));
+    d(this, ms, t == null ? null : U(t, "maxPriorityFeePerGas"));
   }
   /**
    *  The maximum total fee per unit of gas to pay. On legacy
@@ -6127,7 +6127,7 @@ const Ke = class Ke {
     return t ?? (this.type === 2 || this.type === 3 ? bt : null);
   }
   set maxFeePerGas(t) {
-    d(this, ys, t == null ? null : F(t, "maxFeePerGas"));
+    d(this, ys, t == null ? null : U(t, "maxFeePerGas"));
   }
   /**
    *  The transaction data. For ``init`` transactions this is the
@@ -6146,7 +6146,7 @@ const Ke = class Ke {
     return l(this, ws);
   }
   set value(t) {
-    d(this, ws, F(t, "value"));
+    d(this, ws, U(t, "value"));
   }
   /**
    *  The chain ID this transaction is valid on.
@@ -6155,7 +6155,7 @@ const Ke = class Ke {
     return l(this, As);
   }
   set chainId(t) {
-    d(this, As, F(t));
+    d(this, As, U(t));
   }
   /**
    *  If signed, the signature for this transaction.
@@ -6187,7 +6187,7 @@ const Ke = class Ke {
     return t == null && this.type === 3 ? bt : t;
   }
   set maxFeePerBlobGas(t) {
-    d(this, dr, t == null ? null : F(t, "maxFeePerBlobGas"));
+    d(this, dr, t == null ? null : U(t, "maxFeePerBlobGas"));
   }
   /**
    *  The BLOb versioned hashes for Cancun transactions.
@@ -6484,7 +6484,7 @@ const dg = {
   name: dl("name"),
   version: dl("version"),
   chainId: function(r) {
-    const t = F(r, "domain.chainId");
+    const t = U(r, "domain.chainId");
     return m(t >= 0, "invalid chain ID", "domain.chainId", r), Number.isSafeInteger(t) ? Number(t) : zr(t);
   },
   verifyingContract: function(r) {
@@ -6507,7 +6507,7 @@ function ia(r) {
       m(n % 8 === 0 && n !== 0 && n <= 256 && t[2] === String(n), "invalid numeric width", "type", r);
       const s = qn(lg, e ? n - 1 : n), i = e ? (s + uf) * cg : lf;
       return function(o) {
-        const a = F(o, "value");
+        const a = U(o, "value");
         return m(a >= i && a <= s, `value out-of-bounds for ${r}`, "value", a), Qn(e ? Yl(a, 256) : a, 32);
       };
     }
@@ -6768,7 +6768,7 @@ const re = class re {
         if (c.match(/^bytes(\d*)/))
           return T(Z(u));
         if (c.match(/^u?int/))
-          return F(u).toString();
+          return U(u).toString();
         switch (c) {
           case "address":
             return u.toLowerCase();
@@ -7008,7 +7008,7 @@ function un(r, t) {
 function Af(r) {
   if (r.peekType("AT")) {
     if (r.pop(), r.peekType("NUMBER"))
-      return F(r.pop().text);
+      return U(r.pop().text);
     throw new Error("invalid gas");
   }
   return null;
@@ -8604,7 +8604,7 @@ const Xn = class Xn {
    *  If the matching function cannot be found, return null.
    */
   parseTransaction(t) {
-    const e = Z(t.data, "tx.data"), n = F(t.value != null ? t.value : 0, "tx.value"), s = this.getFunction(T(e.slice(0, 4)));
+    const e = Z(t.data, "tx.data"), n = U(t.value != null ? t.value : 0, "tx.value"), s = this.getFunction(T(e.slice(0, 4)));
     if (!s)
       return null;
     const i = l(this, Bt).decode(s.inputs, e.slice(4));
@@ -8805,7 +8805,7 @@ function xo(r) {
   r.to && (t.to = r.to), r.from && (t.from = r.from), r.data && (t.data = T(r.data));
   const e = "chainId,gasLimit,gasPrice,maxFeePerBlobGas,maxFeePerGas,maxPriorityFeePerGas,value".split(/,/);
   for (const s of e)
-    !(s in r) || r[s] == null || (t[s] = F(r[s], `request.${s}`));
+    !(s in r) || r[s] == null || (t[s] = U(r[s], `request.${s}`));
   const n = "type,nonce".split(/,/);
   for (const s of n)
     !(s in r) || r[s] == null || (t[s] = Q(r[s], `request.${s}`));
@@ -10058,7 +10058,7 @@ function Gg(r) {
   const t = async function(o) {
     const a = await kf(o, ["data"]);
     a.to = await r.getAddress(), a.from && (a.from = await Gt(a.from, If(r.runner)));
-    const c = r.interface, u = F(a.value || Il, "overrides.value") === Il, f = (a.data || "0x") === "0x";
+    const c = r.interface, u = U(a.value || Il, "overrides.value") === Il, f = (a.data || "0x") === "0x";
     c.fallback && !c.fallback.payable && c.receive && !f && !u && m(!1, "cannot send data to receive or send value to non-payable fallback", "overrides", o), m(c.fallback || f, "cannot send data to receive-only contract", "overrides.data", a.data);
     const h = c.receive || c.fallback && c.fallback.payable;
     return m(h || u, "cannot send value to non-payable fallback", "overrides.value", a.value), m(c.fallback || f, "cannot send data to receive-only contract", "overrides.data", a.data), a;
@@ -11015,17 +11015,17 @@ const Zg = Gi({
   number: Q,
   timestamp: Q,
   nonce: Y(js),
-  difficulty: F,
-  gasLimit: F,
-  gasUsed: F,
+  difficulty: U,
+  gasLimit: U,
+  gasUsed: U,
   stateRoot: Y(Nt, null),
   receiptsRoot: Y(Nt, null),
-  blobGasUsed: Y(F, null),
-  excessBlobGas: Y(F, null),
+  blobGasUsed: Y(U, null),
+  excessBlobGas: Y(U, null),
   miner: Y(nt),
   prevRandao: Y(Nt, null),
   extraData: js,
-  baseFeePerGas: Y(F)
+  baseFeePerGas: Y(U)
 }, {
   prevRandao: ["mixHash"]
 });
@@ -11055,17 +11055,17 @@ const t0 = Gi({
   // should be allowNull(hash), but broken-EIP-658 support is handled in receipt
   index: Q,
   root: Y(T),
-  gasUsed: F,
-  blobGasUsed: Y(F, null),
+  gasUsed: U,
+  blobGasUsed: Y(U, null),
   logsBloom: Y(js),
   blockHash: Nt,
   hash: Nt,
   logs: _o($g),
   blockNumber: Q,
   //confirmations: allowNull(getNumber, null),
-  cumulativeGasUsed: F,
-  effectiveGasPrice: Y(F),
-  blobGasPrice: Y(F, null),
+  cumulativeGasUsed: U,
+  effectiveGasPrice: Y(U),
+  blobGasPrice: Y(U, null),
   status: Y(Q),
   type: Y(Q, 0)
 }, {
@@ -11077,7 +11077,7 @@ function e0(r) {
   return t0(r);
 }
 function Uf(r) {
-  r.to && F(r.to) === Tl && (r.to = "0x0000000000000000000000000000000000000000");
+  r.to && U(r.to) === Tl && (r.to = "0x0000000000000000000000000000000000000000");
   const t = Gi({
     hash: Nt,
     // Some nodes do not return this, usually test nodes (like Ganache)
@@ -11090,17 +11090,17 @@ function Uf(r) {
     transactionIndex: Y(Q, null),
     from: nt,
     // either (gasPrice) or (maxPriorityFeePerGas + maxFeePerGas) must be set
-    gasPrice: Y(F),
-    maxPriorityFeePerGas: Y(F),
-    maxFeePerGas: Y(F),
-    maxFeePerBlobGas: Y(F, null),
-    gasLimit: F,
+    gasPrice: Y(U),
+    maxPriorityFeePerGas: Y(U),
+    maxFeePerGas: Y(U),
+    maxFeePerBlobGas: Y(U, null),
+    gasLimit: U,
     to: Y(nt, null),
-    value: F,
+    value: U,
     nonce: Q,
     data: js,
     creates: Y(nt, null),
-    chainId: Y(F, null)
+    chainId: Y(U, null)
   }, {
     data: ["input"],
     gasLimit: ["gas"],
@@ -11110,7 +11110,7 @@ function Uf(r) {
     const e = t.signature.legacyChainId;
     e != null && (t.chainId = e);
   }
-  return t.blockHash && F(t.blockHash) === Tl && (t.blockHash = null), t;
+  return t.blockHash && U(t.blockHash) === Tl && (t.blockHash = null), t;
 }
 const n0 = "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e";
 class Hi {
@@ -11250,7 +11250,7 @@ const Yr = class Yr {
     b(this, Cs);
     b(this, Bs);
     b(this, Rn);
-    d(this, Cs, t), d(this, Bs, F(e)), d(this, Rn, /* @__PURE__ */ new Map());
+    d(this, Cs, t), d(this, Bs, U(e)), d(this, Rn, /* @__PURE__ */ new Map());
   }
   /**
    *  Returns a JSON-compatible representation of a Network.
@@ -11277,7 +11277,7 @@ const Yr = class Yr {
     return l(this, Bs);
   }
   set chainId(t) {
-    d(this, Bs, F(t, "chainId"));
+    d(this, Bs, U(t, "chainId"));
   }
   /**
    *  Returns true if %%other%% matches this network. Any chain ID
@@ -11291,14 +11291,14 @@ const Yr = class Yr {
       return !1;
     if (typeof t == "string") {
       try {
-        return this.chainId === F(t);
+        return this.chainId === U(t);
       } catch {
       }
       return this.name === t;
     }
     if (typeof t == "number" || typeof t == "bigint") {
       try {
-        return this.chainId === F(t);
+        return this.chainId === U(t);
       } catch {
       }
       return !1;
@@ -11306,7 +11306,7 @@ const Yr = class Yr {
     if (typeof t == "object") {
       if (t.chainId != null) {
         try {
-          return this.chainId === F(t.chainId);
+          return this.chainId === U(t.chainId);
         } catch {
         }
         return !1;
@@ -12032,7 +12032,7 @@ class d0 {
         gasPrice: (async () => {
           try {
             const f = await P(this, z, Yt).call(this, { method: "getGasPrice" });
-            return F(f, "%response");
+            return U(f, "%response");
           } catch {
           }
           return null;
@@ -12040,7 +12040,7 @@ class d0 {
         priorityFee: (async () => {
           try {
             const f = await P(this, z, Yt).call(this, { method: "getPriorityFee" });
-            return F(f, "%response");
+            return U(f, "%response");
           } catch {
           }
           return null;
@@ -12058,7 +12058,7 @@ class d0 {
   }
   async estimateGas(t) {
     let e = this._getTransactionRequest(t);
-    return Xi(e) && (e = await e), F(await P(this, z, Yt).call(this, {
+    return Xi(e) && (e = await e), U(await P(this, z, Yt).call(this, {
       method: "estimateGas",
       transaction: e
     }), "%response");
@@ -12071,7 +12071,7 @@ class d0 {
     return await P(this, z, Ja).call(this, P(this, z, Va).call(this, e, n, t.enableCcipRead ? 0 : -1));
   }
   async getBalance(t, e) {
-    return F(await P(this, z, ai).call(this, { method: "getBalance" }, t, e), "%response");
+    return U(await P(this, z, ai).call(this, { method: "getBalance" }, t, e), "%response");
   }
   async getTransactionCount(t, e) {
     return Q(await P(this, z, ai).call(this, { method: "getTransactionCount" }, t, e), "%response");
@@ -12080,7 +12080,7 @@ class d0 {
     return T(await P(this, z, ai).call(this, { method: "getCode" }, t, e));
   }
   async getStorage(t, e, n) {
-    const s = F(e, "position");
+    const s = U(e, "position");
     return T(await P(this, z, ai).call(this, { method: "getStorage", position: s }, t, n));
   }
   // Write
@@ -12653,7 +12653,7 @@ class A0 {
     n.nonce == null && (n.nonce = await this.getNonce("pending")), n.gasLimit == null && (n.gasLimit = await this.estimateGas(n));
     const s = await this.provider.getNetwork();
     if (n.chainId != null) {
-      const o = F(n.chainId);
+      const o = U(n.chainId);
       m(o === s.chainId, "transaction chainId mismatch", "tx.chainId", t.chainId);
     } else
       n.chainId = s.chainId;
@@ -13007,7 +13007,7 @@ class P0 extends d0 {
   async _perform(e) {
     if (e.method === "call" || e.method === "estimateGas") {
       let s = e.transaction;
-      if (s && s.type != null && F(s.type) && s.maxFeePerGas == null && s.maxPriorityFeePerGas == null) {
+      if (s && s.type != null && U(s.type) && s.maxFeePerGas == null && s.maxPriorityFeePerGas == null) {
         const i = await this.getFeeData();
         i.maxFeePerGas == null && i.maxPriorityFeePerGas == null && (e = Object.assign({}, e, {
           transaction: Object.assign({}, s, { type: void 0 })
@@ -13034,7 +13034,7 @@ class P0 extends d0 {
         return e;
     return l(this, zt) ? await l(this, zt) : this.ready ? (d(this, zt, (async () => {
       try {
-        const n = De.from(F(await this.send("eth_chainId", [])));
+        const n = De.from(U(await this.send("eth_chainId", [])));
         return d(this, zt, null), n;
       } catch (n) {
         throw d(this, zt, null), n;
@@ -13054,7 +13054,7 @@ class P0 extends d0 {
         throw d(this, zt, null), this.emit("debug", { action: "receiveRpcError", error: i }), i;
       }
       if (this.emit("debug", { action: "receiveRpcResult", result: s }), "result" in s)
-        return De.from(F(s.result));
+        return De.from(U(s.result));
       throw this.getRpcError(n, s);
     })()), await l(this, zt));
   }
@@ -13113,7 +13113,7 @@ class P0 extends d0 {
       if (e[s] == null)
         return;
       let i = s;
-      s === "gasLimit" && (i = "gas"), n[i] = zr(F(e[s], `tx.${s}`));
+      s === "gasLimit" && (i = "gas"), n[i] = zr(U(e[s], `tx.${s}`));
     }), ["from", "to", "data"].forEach((s) => {
       e[s] != null && (n[s] = T(e[s]));
     }), e.accessList && (n.accessList = Tr(e.accessList)), e.blobVersionedHashes && (n.blobVersionedHashes = e.blobVersionedHashes.map((s) => s.toLowerCase())), n;
@@ -13655,19 +13655,17 @@ const da = {
   const C = async () => {
     try {
       if (!t || Number(t) === 0 || Number.isNaN(Number(t))) {
-        console.warn("Amount is 0 or NaN, skipping approval check.");
+        console.warn("Amount is 0 or NaN, skipping approval check."), a(null);
         return;
       }
       if (!x || !r || !e || !y) {
-        console.warn("Invalid parameters provided or wallet not connected.", { chainId: x, token: r, amount: t, spender: e, address: y });
+        console.warn("Invalid parameters provided or wallet not connected.", { chainId: x, token: r, amount: t, spender: e, address: y }), a(null);
         return;
       }
-      const k = await p(x, r, da.ALLOWANCE, [y, e]);
-      console.log("allowance", k);
-      const I = N(t);
-      console.log("allowance-amountInWei", I), I && a(k < I);
-    } catch (k) {
-      console.error("Error checking approval:", k), a(null);
+      const R = await p(x, r, da.ALLOWANCE, [y, e]), I = N(t);
+      I && a(R < I);
+    } catch (R) {
+      console.error("Error checking approval:", R), a(null);
     }
   }, G = async () => {
     try {
@@ -13676,21 +13674,20 @@ const da = {
         return;
       }
       u(!0);
-      const k = N(t), I = await w(r, da.APPROVE, [e, k]);
+      const R = N(t), I = await w(r, da.APPROVE, [e, R]);
       if (console.log("approve tx executed", I), !I) {
         console.error("Approval transaction failed."), u(!1);
         return;
       }
       const M = setInterval(async () => {
         try {
-          const S = await p(x, r, da.ALLOWANCE, [y, e]);
-          console.log("allowance received", S), S.gte(k) && (u(!1), a(!1), clearInterval(M));
-        } catch (S) {
-          console.error("Error while checking approval status:", S);
+          await p(x, r, da.ALLOWANCE, [y, e]) >= R && (u(!1), a(!1), clearInterval(M));
+        } catch (F) {
+          console.error("Error while checking approval status:", F);
         }
       }, 3e3);
-    } catch (k) {
-      console.error("Error during approval:", k), u(!1);
+    } catch (R) {
+      console.error("Error during approval:", R), u(!1);
     }
   };
   return hi(() => {
@@ -13750,9 +13747,9 @@ function U0() {
       switch (g) {
         case I:
           return "Fragment";
-        case k:
+        case R:
           return "Portal";
-        case S:
+        case F:
           return "Profiler";
         case M:
           return "StrictMode";
@@ -14035,7 +14032,7 @@ function U0() {
       }), Object.freeze && (Object.freeze(g.props), Object.freeze(g)), g;
     }
     function E(g, L, D, $, Ct, ot) {
-      if (typeof g == "string" || typeof g == "function" || g === I || g === S || g === M || g === ct || g === ft || g === U || typeof g == "object" && g !== null && (g.$$typeof === B || g.$$typeof === Qt || g.$$typeof === j || g.$$typeof === X || g.$$typeof === K || g.$$typeof === Rt || g.getModuleId !== void 0)) {
+      if (typeof g == "string" || typeof g == "function" || g === I || g === F || g === M || g === ct || g === ft || g === S || typeof g == "object" && g !== null && (g.$$typeof === B || g.$$typeof === Qt || g.$$typeof === j || g.$$typeof === X || g.$$typeof === K || g.$$typeof === Rt || g.getModuleId !== void 0)) {
         var J = L.children;
         if (J !== void 0)
           if ($)
@@ -14123,7 +14120,7 @@ Check the render method of \`` + D + "`."), L || (g = r(g)) && (L = `
 
 Check the top-level render call using <` + g + ">."), L;
     }
-    var C = _f, G = Symbol.for("react.transitional.element"), k = Symbol.for("react.portal"), I = Symbol.for("react.fragment"), M = Symbol.for("react.strict_mode"), S = Symbol.for("react.profiler"), X = Symbol.for("react.consumer"), j = Symbol.for("react.context"), K = Symbol.for("react.forward_ref"), ct = Symbol.for("react.suspense"), ft = Symbol.for("react.suspense_list"), Qt = Symbol.for("react.memo"), B = Symbol.for("react.lazy"), U = Symbol.for("react.offscreen"), V = Symbol.iterator, rt = Symbol.for("react.client.reference"), W = C.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ht = Object.prototype.hasOwnProperty, dt = Object.assign, Rt = Symbol.for("react.client.reference"), ee = Array.isArray, Vt = 0, Ge, pn, ue, Sr, Ne, He, Zs;
+    var C = _f, G = Symbol.for("react.transitional.element"), R = Symbol.for("react.portal"), I = Symbol.for("react.fragment"), M = Symbol.for("react.strict_mode"), F = Symbol.for("react.profiler"), X = Symbol.for("react.consumer"), j = Symbol.for("react.context"), K = Symbol.for("react.forward_ref"), ct = Symbol.for("react.suspense"), ft = Symbol.for("react.suspense_list"), Qt = Symbol.for("react.memo"), B = Symbol.for("react.lazy"), S = Symbol.for("react.offscreen"), V = Symbol.iterator, rt = Symbol.for("react.client.reference"), W = C.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ht = Object.prototype.hasOwnProperty, dt = Object.assign, Rt = Symbol.for("react.client.reference"), ee = Array.isArray, Vt = 0, Ge, pn, ue, Sr, Ne, He, Zs;
     n.__reactDisabledLog = !0;
     var ve, Jt, Pe = !1, Ur = new (typeof WeakMap == "function" ? WeakMap : Map)(), Qi = Symbol.for("react.client.reference"), Nc, vc = {}, Pc = {}, Cc = {};
     ri.Fragment = I, ri.jsx = function(g, L, D, $, Ct) {

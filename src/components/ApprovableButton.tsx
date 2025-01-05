@@ -44,17 +44,17 @@ export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
     try {
       if (!amount || Number(amount) === 0 || Number.isNaN(Number(amount))) {
         console.warn('Amount is 0 or NaN, skipping approval check.');
+        setApprovalNeeded(null);
         return;
       }
       if (!chainId || !token || !spender || !address) {
         console.warn('Invalid parameters provided or wallet not connected.', { chainId, token, amount, spender, address });
+        setApprovalNeeded(null);
         return;
       }
 
       const allowance = await callMethod(chainId, token, ERC20_ABI.ALLOWANCE, [address, spender]) as BigInt;
-      console.log('allowance', allowance);
       const amountInWei = toMachineReadable(amount) as BigInt;
-      console.log('allowance-amountInWei', amountInWei);
       if (amountInWei) {
         setApprovalNeeded(allowance < amountInWei);
       }
@@ -73,7 +73,7 @@ export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
       }
 
       setPending(true);
-      const amountInWei = toMachineReadable(amount);
+      const amountInWei = toMachineReadable(amount) as BigInt;
       const tx = await execute(token, ERC20_ABI.APPROVE, [spender, amountInWei]);
       console.log('approve tx executed', tx);
       if (!tx) {
@@ -85,9 +85,8 @@ export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
       // Keep checking the approval status
       const interval = setInterval(async () => {
         try {
-          const allowance = await callMethod(chainId!, token, ERC20_ABI.ALLOWANCE, [address, spender]);
-          console.log('allowance received', allowance);
-          if (allowance.gte(amountInWei)) {
+          const allowance = await callMethod(chainId!, token, ERC20_ABI.ALLOWANCE, [address, spender]) as BigInt;
+          if (allowance >= amountInWei) {
             setPending(false);
             setApprovalNeeded(false);
             clearInterval(interval);
