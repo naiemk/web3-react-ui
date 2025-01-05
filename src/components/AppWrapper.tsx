@@ -5,7 +5,7 @@ import injectedModule from '@web3-onboard/injected-wallets'
 import coinbaseModule from '@web3-onboard/coinbase'
 import trustModule from '@web3-onboard/trust'
 import { AppMetadata, Chain, ChainWithDecimalId } from '@web3-onboard/common'
-import { ChainConstants } from "./Types";
+import { ChainConstants, setWeb3OnboardInit } from "./Types";
 import { GlobalCache } from "./LocalCache";
 
 const injected = injectedModule()
@@ -20,16 +20,6 @@ const wallets = [
   coinbase,
   // walletConnect,
 ]
-
-// const appMetadata = {
-//   name: 'Connect Wallet Example',
-//   icon: '<svg>My App Icon</svg>',
-//   description: 'Example showcasing how to connect a wallet.',
-//   recommendedInjectedWallets: [
-//     { name: 'MetaMask', url: 'https://metamask.io' },
-//     { name: 'Coinbase', url: 'https://wallet.coinbase.com/' }
-//   ]
-// }
 
 /**
  * Wrap your app in this component to enable wallet connection, constants preperation, and other features.
@@ -48,10 +38,25 @@ export const AppWrapper = (props: {
   useEffect(() => {
     if (chains) {
       console.log('Chains loaded:', chains)
-      const w3o = init({
+      const w3oInitData = ({
         wallets,
         chains,
-        appMetadata: props.appMetadata});
+        appMetadata: props.appMetadata,
+        connect: {
+          autoConnectLastWallet: true
+        },
+        accountCenter: {
+            desktop: {
+              enabled: false
+            },
+            mobile: {
+              enabled: false
+            }
+          }
+        });
+      
+      const w3o = init(w3oInitData);
+      setWeb3OnboardInit()(w3oInitData);
       setWeb3Onboard(w3o)
     }
   }, [chains])
@@ -98,6 +103,8 @@ export const AppWrapper = (props: {
   }
 
   return (
-    <p>Loading...</p>
+    <>
+      {props.children}
+    </>
   );
 };

@@ -1,15 +1,17 @@
-import { bP as b, bO as e, bU as t, bT as o, bY as l, bX as n, bW as p, bV as C, bQ as r, bR as c, bS as h } from "./index-D9ITzUBb.js";
+import { bP as b, bO as e, bU as t, bT as n, b_ as o, bZ as r, bY as l, bV as p, bX as C, bW as c, bQ as i, bR as W, bS as h } from "./index-BujnRWDh.js";
 export {
   b as AppWrapper,
   e as ApprovableButton,
   t as ChainConstants,
-  o as ERC20_ABI,
-  l as GlobalCache,
-  n as LocalCache,
-  p as Utils,
-  C as getChain,
-  r as useConnectWalletSimple,
-  c as useContracts,
+  n as ERC20_ABI,
+  o as GlobalCache,
+  r as LocalCache,
+  l as Utils,
+  p as getChain,
+  C as getWeb3OnboardInit,
+  c as setWeb3OnboardInit,
+  i as useConnectWalletSimple,
+  W as useContracts,
   h as useErc20
 };
 //# sourceMappingURL=index.es.js.map
