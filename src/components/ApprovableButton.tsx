@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 import { useConnectWallet } from '@web3-onboard/react';
 import { useConnectWalletSimple, useContracts } from './Contracts';
-import { ERC20_ABI, useErc20 } from './Erc20';
+import { ERC20_ABI, NATIVE_TOKEN_ADDRESS, useErc20 } from './Erc20';
 
 type ApprovableButtonProps = {
   chainId: string;
@@ -42,6 +42,10 @@ export const ApprovableButton: React.ComponentType<ApprovableButtonProps> = ({
 
   const checkApproval = async () => {
     try {
+      if (token === NATIVE_TOKEN_ADDRESS) {
+        setApprovalNeeded(false);
+        return;
+      }
       if (!amount || Number(amount) === 0 || Number.isNaN(Number(amount))) {
         console.warn('Amount is 0 or NaN, skipping approval check.');
         setApprovalNeeded(null);
