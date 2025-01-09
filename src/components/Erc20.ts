@@ -90,7 +90,28 @@ export function useErc20(tokenAddress?: string, chainId?: string) {
     [tokenData]
   );
 
-  return { tokenData, error, toMachineReadable, toHumanReadable };
+  const getBalance = useCallback(async (address: string) => {
+    if (!tokenAddress || !chainId || !tokenData) return;
+    const chainConfig = ChainConstants[chainId!];
+    if (!chainConfig || !chainConfig.rpcUrl) {
+      setError('Invalid chain configuration');
+      return;
+    }
+
+    const provider = new ethers.JsonRpcProvider(chainConfig.rpcUrl);
+    if (tokenAddress === NATIVE_TOKEN_ADDRESS) {
+      const balance = await provider.getBalance(address);
+      return balance;
+    }
+
+    const contract = new ethers.Contract(tokenAddress, [
+      'function balanceOf(address account) view returns (uint256)',
+    ], provider);
+    const balance = await contract.balanceOf(address);
+    return balance;
+  }, [tokenData]);
+
+  return { tokenData, error, toMachineReadable, toHumanReadable, getBalance };
 }
 
 export const ERC20_ABI = {

@@ -9,6 +9,7 @@ export declare function useErc20(tokenAddress?: string, chainId?: string): {
     error: string | null;
     toMachineReadable: (amount: string | number) => bigint | null;
     toHumanReadable: (amount: string | number) => string | null;
+    getBalance: (address: string) => Promise<any>;
 };
 export declare const ERC20_ABI: {
     BALANCE_OF: string;
