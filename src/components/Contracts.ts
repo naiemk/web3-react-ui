@@ -60,7 +60,12 @@ export const useContracts = () => {
     async (
       contractAddr: string,
       definition: MethodDefinition,
-      args: Args
+      args: Args,
+      options?: {
+        gasLimit?: number;
+        gasPrice?: number;
+        value?: number;
+      }
     ): Promise<any | null> => {
       setError(null); // Reset error state
       try {
@@ -79,7 +84,7 @@ export const useContracts = () => {
           return null;
         }
 
-        const transaction = await contract[methodName](...args);
+        const transaction = await contract[methodName](...args, options);
         await transaction.wait(); // Wait for the transaction to be mined
         return transaction;
       } catch (err: any) {

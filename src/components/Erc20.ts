@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import { ChainConstants } from './Types';
 
+export const NATIVE_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000001';
+
 interface TokenData {
   name: string;
   symbol: string;
@@ -10,24 +12,32 @@ interface TokenData {
 
 const tokenCache: { [address: string]: TokenData } = {};
 
-export function useErc20(tokenAddress: string, chainId: string) {
+export function useErc20(tokenAddress?: string, chainId?: string) {
   const [tokenData, setTokenData] = useState<TokenData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!tokenAddress || !chainId) return;
+    const cacheKey = tokenAddress + '|' +chainId;
 
     const fetchTokenData = async () => {
       try {
         // Check cache first
-        if (tokenCache[tokenAddress]) {
-          setTokenData(tokenCache[tokenAddress]);
+        if (tokenCache[cacheKey]) {
+          setTokenData(tokenCache[cacheKey]);
           return;
         }
 
         const chainConfig = ChainConstants[chainId];
         if (!chainConfig || !chainConfig.rpcUrl) {
           setError('Invalid chain configuration');
+          return;
+        }
+
+        if (tokenAddress === NATIVE_TOKEN_ADDRESS) {
+          const tokenData = { name: chainConfig.token || 'Native', symbol: chainConfig.token || 'N/A', decimals: 18 };
+          tokenCache[cacheKey] = tokenData;
+          setTokenData(tokenData);
           return;
         }
 
@@ -45,7 +55,7 @@ export function useErc20(tokenAddress: string, chainId: string) {
         ]);
 
         const data = { name, symbol, decimals };
-        tokenCache[tokenAddress] = data;
+        tokenCache[cacheKey] = data;
         setTokenData(data);
       } catch (err) {
         console.error(err);

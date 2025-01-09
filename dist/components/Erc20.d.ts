@@ -1,9 +1,10 @@
+export declare const NATIVE_TOKEN_ADDRESS = "0x0000000000000000000000000000000000000001";
 interface TokenData {
     name: string;
     symbol: string;
     decimals: number;
 }
-export declare function useErc20(tokenAddress: string, chainId: string): {
+export declare function useErc20(tokenAddress?: string, chainId?: string): {
     tokenData: TokenData | null;
     error: string | null;
     toMachineReadable: (amount: string | number) => bigint | null;
