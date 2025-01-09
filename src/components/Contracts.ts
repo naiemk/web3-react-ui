@@ -84,7 +84,7 @@ export const useContracts = () => {
           return null;
         }
         console.log('About to execute', {contractAddr, methodName, definition, args, options});
-        const transaction = await contract[methodName](...args, options);
+        const transaction = await contract[methodName](...args, options || {});
         await transaction.wait(); // Wait for the transaction to be mined
         return transaction;
       } catch (err: any) {

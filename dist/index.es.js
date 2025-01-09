@@ -13583,7 +13583,7 @@ const R0 = () => {
         if (!(p in h))
           return e(`Method ${p} not found in contract.`), null;
         console.log("About to execute", { contractAddr: i, methodName: p, definition: o, args: a, options: c });
-        const y = await h[p](...a, c);
+        const y = await h[p](...a, c || {});
         return await y.wait(), y;
       } catch (u) {
         return console.error("Error executing method:", u), e(u.message), null;
