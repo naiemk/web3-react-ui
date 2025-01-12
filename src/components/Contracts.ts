@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { ContractTransactionResponse, ethers } from 'ethers';
 import { useConnectWallet } from '@web3-onboard/react';
 import { canonicalAddress, canonicalChainId, ChainConstants } from './Types';
 import { useState, useCallback } from 'react';
@@ -62,10 +62,11 @@ export const useContracts = () => {
       definition: MethodDefinition,
       args: Args,
       options?: {
+        wait?: boolean;
         gasLimit?: number;
-        gasPrice?: number;
-        value?: number;
-      }
+        gasPrice?: BigInt;
+        value?: BigInt;
+      },
     ): Promise<any | null> => {
       setError(null); // Reset error state
       try {
@@ -84,8 +85,8 @@ export const useContracts = () => {
           return null;
         }
         console.log('About to execute', {contractAddr, methodName, definition, args, options});
-        const transaction = await contract[methodName](...args, options || {});
-        await transaction.wait(); // Wait for the transaction to be mined
+        const transaction = await contract[methodName](...args, options || {}) as ContractTransactionResponse;
+        if (options?.wait) { await transaction.wait(); } // Wait for the transaction to be mined
         return transaction;
       } catch (err: any) {
         console.error('Error executing method:', err);

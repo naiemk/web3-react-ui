@@ -8,9 +8,10 @@ export declare const useConnectWalletSimple: () => {
 export declare const useContracts: () => {
     callMethod: (chainId: string, contractAddr: string, definition: MethodDefinition, args: Args) => Promise<any | null>;
     execute: (contractAddr: string, definition: MethodDefinition, args: Args, options?: {
+        wait?: boolean;
         gasLimit?: number;
-        gasPrice?: number;
-        value?: number;
+        gasPrice?: BigInt;
+        value?: BigInt;
     }) => Promise<any | null>;
     error: string | null;
 };
