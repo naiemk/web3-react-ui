@@ -38,7 +38,7 @@ export const useContracts = () => {
           return null;
         }
 
-        const provider = new ethers.JsonRpcProvider(chain.rpcUrl);
+        const provider = new ethers.JsonRpcProvider(chain.rpcUrl, chainId);
         const contract = new ethers.Contract(contractAddr, [definition], provider);
 
         const methodName = definition.split('(')[0].split(' ')[1].trim();

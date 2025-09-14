@@ -13571,7 +13571,7 @@ const T0 = (r) => {
       if (!T0(s) || n === t)
         throw s;
       const i = e * Math.pow(2, n) + Math.random() * 1e3;
-      console.log("Rate limited, retrying...", i, "attempt:", n), await S0(i);
+      console.log("Rate limited, retrying...", i, "attempt", n), await S0(i);
     }
 }, U0 = () => {
   var n, s;
@@ -13590,7 +13590,7 @@ const T0 = (r) => {
         const u = Tr[i];
         if (!u)
           return e(`Chain with ID ${i} not found in ChainConstants.`), null;
-        const f = new Za(u.rpcUrl), h = new fn(o, [a], f), p = a.split("(")[0].split(" ")[1].trim();
+        const f = new Za(u.rpcUrl, i), h = new fn(o, [a], f), p = a.split("(")[0].split(" ")[1].trim();
         return p in h ? await Zn(() => h[p](...c)) : (e(`Method ${p} not found in contract.`), null);
       } catch (u) {
         return console.error("Error calling method:", u), e(u.message), null;
@@ -13638,7 +13638,7 @@ function F0(r, t) {
           to[u] = O, n(O);
           return;
         }
-        const p = new Za(h.rpcUrl), y = new fn(r, [
+        const p = new Za(h.rpcUrl, t), y = new fn(r, [
           "function name() view returns (string)",
           "function symbol() view returns (string)",
           "function decimals() view returns (uint8)"
@@ -13666,7 +13666,7 @@ function F0(r, t) {
       i("Invalid chain configuration");
       return;
     }
-    const h = new Za(f.rpcUrl);
+    const h = new Za(f.rpcUrl, t);
     if (r === $a)
       return await Zn(() => h.getBalance(u));
     const p = new fn(r, [
