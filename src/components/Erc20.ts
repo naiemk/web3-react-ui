@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import { ChainConstants } from './Types';
+import { exponentialBackoff } from './Utils';
 
 export const NATIVE_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000001';
 
@@ -49,9 +50,9 @@ export function useErc20(tokenAddress?: string, chainId?: string) {
         ], provider);
 
         const [name, symbol, decimals] = await Promise.all([
-          contract.name(),
-          contract.symbol(),
-          contract.decimals()
+          exponentialBackoff(() => contract.name()),
+          exponentialBackoff(() => contract.symbol()),
+          exponentialBackoff(() => contract.decimals())
         ]);
 
         const data = { name, symbol, decimals };
@@ -100,14 +101,14 @@ export function useErc20(tokenAddress?: string, chainId?: string) {
 
     const provider = new ethers.JsonRpcProvider(chainConfig.rpcUrl);
     if (tokenAddress === NATIVE_TOKEN_ADDRESS) {
-      const balance = await provider.getBalance(address);
+      const balance = await exponentialBackoff(() => provider.getBalance(address));
       return balance;
     }
 
     const contract = new ethers.Contract(tokenAddress, [
       'function balanceOf(address account) view returns (uint256)',
     ], provider);
-    const balance = await contract.balanceOf(address);
+    const balance = await exponentialBackoff(() => contract.balanceOf(address));
     return balance;
   }, [tokenData]);
 

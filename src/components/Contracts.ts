@@ -2,7 +2,8 @@ import { ContractTransactionResponse, ethers } from 'ethers';
 import { useConnectWallet } from '@web3-onboard/react';
 import { canonicalAddress, canonicalChainId, ChainConstants } from './Types';
 import { useState, useCallback } from 'react';
-import { Chain } from '@web3-onboard/common'
+import { Chain } from '@web3-onboard/common';
+import { exponentialBackoff } from './Utils';
 
 type MethodDefinition = string;
 type Args = any[];
@@ -46,7 +47,7 @@ export const useContracts = () => {
           return null;
         }
 
-        return await contract[methodName](...args);
+        return await exponentialBackoff(() => contract[methodName](...args));
       } catch (err: any) {
         console.error('Error calling method:', err);
         setError(err.message);
@@ -85,7 +86,7 @@ export const useContracts = () => {
           return null;
         }
         console.log('About to execute', {contractAddr, methodName, definition, args, options});
-        const transaction = await contract[methodName](...args, options || {}) as ContractTransactionResponse;
+        const transaction = await exponentialBackoff(() => contract[methodName](...args, options || {})) as ContractTransactionResponse;
         if (options?.wait) { await transaction.wait(); } // Wait for the transaction to be mined
         return transaction;
       } catch (err: any) {
