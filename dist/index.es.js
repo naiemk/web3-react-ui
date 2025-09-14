@@ -13571,7 +13571,7 @@ const T0 = (r) => {
       if (!T0(s) || n === t)
         throw s;
       const i = e * Math.pow(2, n) + Math.random() * 1e3;
-      await S0(i);
+      console.log("Rate limited, retrying...", i, "attempt:", n), await S0(i);
     }
 }, U0 = () => {
   var n, s;

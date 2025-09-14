@@ -41,9 +41,9 @@ export const exponentialBackoff = async (
       if (!isRateLimited(error) || attempt === maxRetries) {
         throw error;
       }
-      
       // Exponential backoff with jitter: baseDelay * 2^attempt + random(0, 1000)
       const delayMs = baseDelay * Math.pow(2, attempt) + Math.random() * 1000;
+      console.log('Rate limited, retrying...', delayMs, 'attempt:', attempt);
       await delay(delayMs);
     }
   }
