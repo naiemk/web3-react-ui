@@ -13563,7 +13563,7 @@ const T0 = (r) => {
   if (!(r != null && r.message)) return !1;
   const t = r.message.toLowerCase();
   return t.includes("exceeded the rps limit") || t.includes("#rate-limits") || t.includes("retry in");
-}, S0 = (r) => new Promise((t) => setTimeout(t, r)), Zn = async (r, t = 3, e = 1e3) => {
+}, S0 = (r) => new Promise((t) => setTimeout(t, r)), Zn = async (r, t = 3, e = 100) => {
   for (let n = 0; n <= t; n++)
     try {
       return await r();

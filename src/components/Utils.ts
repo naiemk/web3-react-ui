@@ -32,7 +32,7 @@ export const delay = (ms: number): Promise<void> =>
 export const exponentialBackoff = async (
   fn: () => Promise<any>,
   maxRetries: number = 3,
-  baseDelay: number = 1000
+  baseDelay: number = 100
 ): Promise<any> => {
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
