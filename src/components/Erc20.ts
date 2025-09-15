@@ -42,7 +42,7 @@ export function useErc20(tokenAddress?: string, chainId?: string) {
           return;
         }
 
-        const provider = new ethers.JsonRpcProvider(chainConfig.rpcUrl, chainId);
+        const provider = new ethers.JsonRpcProvider(chainConfig.rpcUrl, BigInt(chainId));
         const contract = new ethers.Contract(tokenAddress, [
           'function name() view returns (string)',
           'function symbol() view returns (string)',
@@ -99,7 +99,7 @@ export function useErc20(tokenAddress?: string, chainId?: string) {
       return;
     }
 
-    const provider = new ethers.JsonRpcProvider(chainConfig.rpcUrl, chainId);
+    const provider = new ethers.JsonRpcProvider(chainConfig.rpcUrl, BigInt(chainId));
     if (tokenAddress === NATIVE_TOKEN_ADDRESS) {
       const balance = await exponentialBackoff(() => provider.getBalance(address));
       return balance;
