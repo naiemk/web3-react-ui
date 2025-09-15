@@ -22,7 +22,7 @@ export class Utils {
 export const isRateLimited = (error: any): boolean => {
   if (!error?.message) return false;
   const message = error.message.toLowerCase();
-  return message.includes('exceeded the rps limit') || message.includes('#rate-limits');
+  return message.includes('exceeded the rps limit') || message.includes('#rate-limits') || message.includes('retry in');
 };
 
 // Exponential backoff with jitter
